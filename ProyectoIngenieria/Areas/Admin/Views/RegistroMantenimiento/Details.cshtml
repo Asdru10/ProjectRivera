@@ -1,0 +1,104 @@
+﻿@model ProyectoIngenieria.Models.ViewModels.RegistroMantenimientoVM
+
+@{
+    ViewData["Title"] = "Detalles del Mantenimiento";
+}
+
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-10">
+            <div class="card shadow-lg">
+
+
+
+        <div class="card-header card-header-principal text-center">
+            <h2 class="titulo-formulario">DETALLES DE MANTENIMIENTO</h2>
+        </div>
+
+
+
+        <div class="card-body">
+            <dl class="row justify-content-center">
+                        <dt class="col-12 col-sm-4 text-sm-end">Marca</dt>
+                        <dd class="col-12 col-sm-6 text-sm-start">@Model.vehiculo.Marca.NombreMarca</dd>
+
+                        <dt class="col-12 col-sm-4 text-sm-end">Modelo</dt>
+                        <dd class="col-12 col-sm-6 text-sm-start">@Model.vehiculo.Modelo</dd>
+
+                        <dt class="col-12 col-sm-4 text-sm-end">Placa/Serie</dt>
+                        <dd class="col-12 col-sm-6 text-sm-start">@Model.vehiculo.Placa</dd>
+
+                        <dt class="col-12 col-sm-4 text-sm-end">Fecha</dt>
+                        <dd class="col-12 col-sm-6 text-sm-start">@Model.RegistroMantenimiento.Fecha.ToString("dd/MM/yyyy")</dd>
+
+                        <dt class="col-12 col-sm-4 text-sm-end">Precio</dt>
+                        <dd class="col-12 col-sm-6 text-sm-start">₡@Model.RegistroMantenimiento.Precio.ToString("N2")</dd>
+
+                @if (!string.IsNullOrWhiteSpace(Model.RegistroMantenimiento.Descripcion))
+                {
+                            <dt class="col-12 col-sm-4 text-sm-end">Descripción</dt>
+                            <dd class="col-12 col-sm-6 text-sm-start">@Model.RegistroMantenimiento.Descripcion</dd>
+                }
+
+                        <dt class="col-12 col-sm-4 text-sm-end">Repuestos utilizados</dt>
+                        <dd class="col-12 col-sm-6 text-sm-start">
+                    @if (Model.nombresProductos != null && Model.nombresProductos.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var repuesto in Model.nombresProductos)
+                            {
+                                <li class="list-group-item">@repuesto</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span class="text-muted">No se utilizaron repuestos.</span>
+                    }
+                </dd>
+            </dl>
+
+            <h5 class="text-secondary mt-5 mb-3">Operadores y tareas realizadas</h5>
+
+            @if (Model.DetallesOperadores != null && Model.DetallesOperadores.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped align-middle">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Nombre del Operador</th>
+                                <th>Tarea Realizada</th>
+                                <th>Horas Trabajadas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var detalle in Model.DetallesOperadores)
+                            {
+                                var operador = Model.ListaOperadores.FirstOrDefault(o => o.Value == detalle.OperadorCedula.ToString());
+                                var tarea = Model.ListaCatalogoMantenimiento.FirstOrDefault(t => t.Value == detalle.CatalogoMantenimientoId.ToString());
+
+                                <tr>
+                                    <td>@(operador?.Text ?? "Desconocido")</td>
+                                    <td>@(tarea?.Text ?? "Desconocida")</td>
+                                    <td>@detalle.HorasTrabajo</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p class="text-muted">No hay operadores registrados para este mantenimiento.</p>
+            }
+        </div>
+    </div>
+    <a asp-controller="RegistroMantenimiento" asp-action="Index" 
+       class="btn btn-outline-success rounded-circle shadow p-3"
+       style="position: fixed; bottom: 30px; right: 30px; z-index: 1050; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+        <i class="bi bi-arrow-left"></i>
+    </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+@using ProyectoIngenieria.Models.ViewModels
+@model TipoVehiculoVM
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 bg-white p-4 rounded shadow-sm">
+            <form method="post">
+                <input hidden asp-for="tipoVehiculo.Id" />
+
+                <div class="border-bottom pb-3 mb-4">
+                    <h2 class="titulo-formulario">
+                        @(Model.tipoVehiculo.Id == 0 ? "AGREGAR" : "ACTUALIZAR") TIPO DE VEHÍCULO
+                    </h2>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="tipoVehiculo.Tipo" class="form-label fw-semibold">Nombre</label>
+                    <input asp-for="tipoVehiculo.Tipo" type="text" class="form-control" placeholder="Ingrese el nuevo tipo de vehículo" />
+                    <span asp-validation-for="tipoVehiculo.Tipo" class="form-text text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="tipoVehiculo.Descripcion" class="form-label fw-semibold">Descripción</label>
+                    <textarea asp-for="tipoVehiculo.Descripcion" rows="3" class="form-control" placeholder="Ingrese descripción detallada..."></textarea>
+                    <span asp-validation-for="tipoVehiculo.Descripcion" class="text-danger small"></span>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 pt-3">
+                    <button type="submit" class="btn btn-success w-25">
+                        GUARDAR
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <a asp-controller="TipoVehiculo" asp-action="Index"
+       class="btn btn-outline-success rounded-circle shadow p-3"
+       style="position: fixed; bottom: 30px; right: 30px; z-index: 1050; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+        <i class="bi bi-arrow-left"></i>
+    </a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

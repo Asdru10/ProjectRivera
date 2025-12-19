@@ -1,0 +1,94 @@
+﻿@model ProyectoIngenieria.Models.ViewModels.RegistroOperadoresVM
+@{
+    ViewData["Title"] = "ASIGNAR COLABORADOR";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="container py-5">
+
+            <form method="post" asp-action="Upsert">
+                <input asp-for="RegistroOperador.Id" type="hidden" />
+
+
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="row g-4">
+
+                            <div class="border-bottom pb-3 mb-4">
+                                <h2 class="titulo-formulario">@ViewData["Title"]</h2>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="RegistroOperador.OperadorCedula" class="form-label fw-semibold">Colaborador</label>
+                                <select asp-for="RegistroOperador.OperadorCedula" asp-items="Model.ListaOperadores" class="form-select"></select>
+                                <span asp-validation-for="RegistroOperador.OperadorCedula" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="RegistroOperador.VehiculoId" class="form-label fw-semibold">Vehículo</label>
+                                <select asp-for="RegistroOperador.VehiculoId" asp-items="Model.ListaVehiculos" class="form-select"></select>
+                                <span asp-validation-for="RegistroOperador.VehiculoId" class="text-danger"></span>
+                            </div>
+
+                            <!-- Fecha -->
+                            <div class="col-md-6">
+                                <label asp-for="RegistroOperador.FechaInicio" class="form-label fw-semibold">Indique la fecha de inicio</label>
+                                <input name="RegistroOperador.FechaInicio"
+                                       id="fechaInicio"
+                                       class="form-control"
+                                       type="text"
+                                       value="@(Model.RegistroOperador.FechaInicio != DateTime.MinValue ? Model.RegistroOperador.FechaInicio.ToString("yyyy-MM-dd") : "")" />
+                                <span asp-validation-for="RegistroOperador.FechaInicio" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="RegistroOperador.FechaFin" class="form-label fw-semibold">Indique la fecha de fin</label>
+                                <input name="RegistroOperador.FechaFin"
+                                       id="fechaFin"
+                                       class="form-control"
+                                       type="text"
+                                       value="@(Model.RegistroOperador.FechaFin != DateTime.MinValue ? Model.RegistroOperador.FechaFin.ToString("yyyy-MM-dd") : "")" />
+                                <span asp-validation-for="RegistroOperador.FechaFin" class="text-danger small"></span>
+                            </div>
+
+                            <div class="d-flex justify-content-end gap-2 pt-4">
+                                <button type="submit" class="btn btn-success">GUARDAR</button>
+                            </div>
+                        </div>
+                    </div>
+
+            </form>
+        </div>
+    </div>
+    <a asp-controller="Operador" asp-action="Index"
+       class="btn btn-outline-success rounded-circle shadow p-3"
+       style="position: fixed; bottom: 30px; right: 30px; z-index: 1050; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+        <i class="bi bi-arrow-left"></i>
+    </a>
+</div>
+
+@section Scripts {
+
+    <!-- Flatpickr JS + idioma español -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+
+    <script>
+        flatpickr("#fechaInicio", {
+            locale: "es",
+            dateFormat: "Y-m-d"
+        });
+
+        flatpickr("#fechaFin", {
+            locale: "es",
+            dateFormat: "Y-m-d"
+        });
+    </script>
+
+
+    <partial name="_ValidationScriptsPartial" />
+}

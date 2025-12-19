@@ -1,0 +1,43 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<body class="fondo-login">
+    <div class="fondo-login d-flex justify-content-center align-items-center min-vh-100">
+        <div class="row shadow rounded-4 p-4 bg-white w-100" style="max-width: 450px;">
+            <h1 class="h3 text-success fw-bold text-center">Bienvenido</h1>
+
+            <form id="account" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="name@example.com" />
+                    <label asp-for="Input.Email">Correo electrónico</label>
+                    <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" placeholder="Contraseña" />
+                    <label asp-for="Input.Password">Contraseña</label>
+                    <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                </div>
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" asp-for="Input.RememberMe" />
+                    <label class="form-check-label" asp-for="Input.RememberMe">
+                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                    </label>
+                </div>
+
+                <button id="login-submit" type="submit" class="btn btn-success w-50 mb-3 d-block mx-auto">Iniciar Sesión</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

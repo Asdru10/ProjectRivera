@@ -1,0 +1,155 @@
+﻿@using ProyectoIngenieria.Models.ViewModels
+@model RegistroCombustibleVM
+
+@{
+    ViewData["Title"] = Model.RegistroCombustible.Id == 0 ? "CREAR REGISTRO DE COMBUSTIBLE" : "EDITAR REGISTRO DE COMBUSTIBLE";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="container py-5">
+
+
+            <form method="post">
+                <input asp-for="RegistroCombustible.Id" type="hidden" />
+
+
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="row g-4">
+
+
+                            <div class="border-bottom pb-3 mb-4">
+                                <h2 class="titulo-formulario">
+                                    @ViewData["Title"]
+                                </h2>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Vehículo</label>
+                                @if (Model.RegistroCombustible.Id == 0 && Model.RegistroCombustible.VehiculoId == 0)
+                                {
+                                    <select asp-for="RegistroCombustible.VehiculoId"
+                                            asp-items="Model.ListaVehiculos"
+                                            class="form-select select2"
+                                            data-val="true"
+                                            data-val-required="Debe seleccionar un vehículo.">
+                                        <option value="">-- Seleccione un vehículo --</option>
+                                    </select>
+                                    <span asp-validation-for="RegistroCombustible.VehiculoId" class="text-danger small"></span>
+                                }
+                                else
+                                {
+                                    <input type="text"
+                                           class="form-control"
+                                           value="@Model.ListaVehiculos.FirstOrDefault(v => v.Value == Model.RegistroCombustible.VehiculoId.ToString())?.Text"
+                                           disabled />
+                                    <input type="hidden" asp-for="RegistroCombustible.VehiculoId" />
+                                }
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="RegistroCombustible.FechaCompra" class="form-label fw-semibold">Fecha de compra</label>
+                                <input asp-for="RegistroCombustible.FechaCompra" type="date" class="form-control" id="fechaCompra" />
+                                <span asp-validation-for="RegistroCombustible.FechaCompra" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="RegistroCombustible.LitrosComprados" class="form-label fw-semibold">Litros comprados</label>
+                                <input asp-for="RegistroCombustible.LitrosComprados" type="number" step="0.01" class="form-control" placeholder="Litros" />
+                                <span asp-validation-for="RegistroCombustible.LitrosComprados" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="RegistroCombustible.PrecioLitro" class="form-label fw-semibold">Precio por litro</label>
+                                <input asp-for="RegistroCombustible.PrecioLitro" type="number" step="0.01" class="form-control" placeholder="₡ por litro" />
+                                <span asp-validation-for="RegistroCombustible.PrecioLitro" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="RegistroCombustible.TotalPagado" class="form-label fw-semibold">Total pagado</label>
+                                <input asp-for="RegistroCombustible.TotalPagado" type="number" step="0.01" class="form-control" readonly />
+                                <span asp-validation-for="RegistroCombustible.TotalPagado" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 pt-4">
+                            <button type="submit" class="btn btn-success w-25">
+                                GUARDAR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @if (Model.RegistroCombustible.VehiculoId != 0)
+    {
+        <a asp-controller="RegistroCombustible" asp-action="Index" asp-route-id="@Model.RegistroCombustible.VehiculoId"
+           class="btn btn-outline-success rounded-circle shadow p-3"
+           style="position: fixed; bottom: 30px; right: 30px; z-index: 1050; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+    }
+    else
+    {
+        <a asp-controller="RegistroCombustible" asp-action="Index"
+           class="btn btn-outline-success rounded-circle shadow p-3"
+           style="position: fixed; bottom: 30px; right: 30px; z-index: 1050; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <!-- Flatpickr JS + idioma español -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+    <script>
+
+        $(document).ready(function () {
+            $('.select2').select2({
+                width: '100%',
+                placeholder: '-- Seleccione una opción --',
+                allowClear: true,
+                language: "es"
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const litrosInput = document.querySelector("[name='RegistroCombustible.LitrosComprados']");
+            const precioInput = document.querySelector("[name='RegistroCombustible.PrecioLitro']");
+            const totalInput = document.querySelector("[name='RegistroCombustible.TotalPagado']");
+
+            function calcularTotal() {
+                const litros = parseFloat(litrosInput.value) || 0;
+                const precio = parseFloat(precioInput.value) || 0;
+                const total = litros * precio;
+                totalInput.value = total.toFixed(2);
+            }
+
+            litrosInput.addEventListener("input", calcularTotal);
+            precioInput.addEventListener("input", calcularTotal);
+
+            flatpickr("#fechaCompra", {
+                locale: "es",
+                dateFormat: "Y-m-d",
+                defaultDate: "today"
+            });
+        });
+    </script>
+}
