@@ -15,3 +15,10 @@ This project focuses on real-world business needs, including equipment availabil
 - Web-based interface
 - Bootstrap
 - JavaScript
+
+## Important
+This project was developed by me and my course team, here their respective users:
+- EstBreRiv
+- KendalSalazar
+- Fabri1812
+- molmel23
